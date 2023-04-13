@@ -31,9 +31,9 @@ def main():
             coin_dict['id'] = tds[1].inner_text()
             coin_dict['Name'] = tds[2].query_selector("//p[@color='text']").inner_text()
             coin_dict['Symbol'] = tds[2].query_selector("//p[@color='text3']").inner_text()
-            coin_dict['Price'] = float(tds[3].inner_text().replace('$','').replace(',',''))
+            coin_dict['Price_usd'] = float(tds[3].inner_text().replace('$','').replace(',',''))
             coin_dict['Market_cap_usd'] = int(tds[7].inner_text().replace('$','').replace(',',''))
-            coin_dict['Volume_24_usd'] = int(tds[8].query_selector("//p[@color='text']").inner_text().replace('$','').replace(',',''))
+            coin_dict['Volume_24h_usd'] = int(tds[8].query_selector("//p[@color='text']").inner_text().replace('$','').replace(',',''))
 
 
             master_list.append(coin_dict)
@@ -49,14 +49,14 @@ def main():
             host='localhost',
             database='test',
             user='postgres',
-            password='Jibrich23'
+            password='admin'
         )
 
         # create cursor
         pgcursor = pgconn.cursor()
 
         execute_values(pgcursor,
-                       "INSERT INTO cypto (id, name, symbol, price_usd, market_cap_usd, volume_24h_usd) VALUES %S",
+                       "INSERT INTO crypto (id, name, symbol, price_usd, market_cap_usd, volume_24h_usd) VALUES %s",
                        list_of_tuples)
         
         # commit 
